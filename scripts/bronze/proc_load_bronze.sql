@@ -1,9 +1,16 @@
-EXEC bronze.load_bronze
+/*
+This stored procedure loads data into the 'bronze' schema from 2 sources system CSV files.
+It truncates the bronze table before loading data. 
+
+Usage Example: 
+	EXEC bronze.load_bronze;
+*/
 
 CREATE OR ALTER PROCEDURE bronze.load_bronze AS
 BEGIN
-	DECLARE @start_time DATETIME, @end_time DATETIME
+	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME;
 	BEGIN TRY
+		SET @batch_start_time = GETDATE();
 		PRINT '================================================';
 		PRINT 'Loading Bronze Table';
 		PRINT '================================================';
@@ -102,7 +109,9 @@ BEGIN
 		PRINT'>> Load Duration: ' + CAST(DATEDIFF(second,@start_time, @end_time) AS NVARCHAR) + ' seconds';
 		PRINT'>> ------------';
 
+		SET @batch_end_time = GETDATE();
 	END TRY
+
 	BEGIN CATCH
 		PRINT '================================================='
 		PRINT 'ERROR OCCURED DURING LOADING BRONZE LAYER' 
