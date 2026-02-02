@@ -1,25 +1,13 @@
 /*
 Create DB and Schemas 
 
-Purpose: - this script creates a new DB named "DataWarehouse" after checking if it already exists. 
-		 If the DB exists, it will be dropped and recreated. 
-		 - 3 schemas namely: "bronze","silver","gold" will also be created within the DB
-         - Create new tables with the naming convention as follows: <layer>.<source_system>_<table_name>
+Purpose:- Create new tables with the naming convention as follows: <layer>.<source_system>_<table_name>
+        - Define table column 
 Warning: Running this script will drop the entire "DataWarehouse" DB if it exisits. Make sure you have proper backup before proceeding. 
 */
 
-USE master;
-
-CREATE DATABASE DataWarehouse;
-
 USE DataWarehouse;
 
-CREATE SCHEMA bronze;
-GO
-CREATE SCHEMA silver;
-GO
-CREATE SCHEMA gold;
-GO
 
 IF OBJECT_ID ('bronze.crm_cust_info', 'U') IS NOT NULL
     DROP TABLE bronze.crm_cust_info;
@@ -29,7 +17,7 @@ CREATE TABLE bronze.crm_cust_info (
 	cst_key NVARCHAR(50),
 	cst_firstname NVARCHAR(50),
 	cst_lastname NVARCHAR(50),
-	cst_material_status NVARCHAR(50),
+	cst_marital_status NVARCHAR(50),
 	cst_gndr NVARCHAR(50),
 	cst_create_date DATE 
 );
